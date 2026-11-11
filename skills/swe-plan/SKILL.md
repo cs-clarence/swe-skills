@@ -13,4 +13,4 @@ Guidelines live in `docs/guidelines` of the current repository (installed from <
 4. Check the plan against `planning/ready-to-build.md` before starting.
 5. If the work is bigger than expected or differs from the design, stop and follow `core/when-to-ask.md`.
 6. Agents: also read `planning/agents.md`.
-7. If the assessment says to split work between agents, give each part a self-contained brief (goal, scope, inputs, what not to touch, how the result is checked) per `planning/agents.md#give-delegated-work-a-self-contained-brief`. Keep integration and final verification with one agent and verify the combined result yourself.
+7. If the assessment says to split work between agents, give each part a self-contained brief (goal, scope, inputs, what not to touch, how the result is checked) per `planning/agents.md#give-delegated-work-a-self-contained-brief`. Keep integration and final verification with one agent and verify the combined result yourself. If that heading is missing, tell the user to update swe-docs and do not split.

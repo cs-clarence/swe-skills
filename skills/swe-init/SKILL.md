@@ -9,7 +9,7 @@ Optional. Run this only when asked, or when `docs/guidelines` is missing and the
 
 1. Inspect without changing anything: new or existing repo, monorepo or not, instruction files (`AGENTS.md`, `CLAUDE.md`, `CONTRIBUTING.md`), existing docs folders, any existing `docs/guidelines`, an omni workspace (`workspace.omni.yaml`), and where plans, decisions and design docs live today (issues, a decisions folder, a wiki).
 2. Recommend an install method and let the user choose. Omni projection if there is or will be a workspace, with `rev` pinned to a tag or commit. Otherwise copy or symlink `docs/guidelines`. Offer a subset by dropping areas from the top down: reviewing, then authoring, then planning; `core` always stays.
-3. Install these skills the same way: omni projection from <https://github.com/cs-clarence/swe-skills>, or copy each `skills/<name>` folder.
+3. Install only the skills whose guideline areas are present: `swe-review` needs `reviewing`; `swe-debug`, `swe-release`, `swe-author` and `swe-self-review` need `authoring`; `swe-plan` and `swe-assess` need `planning`. Install them the same way: omni projection from <https://github.com/cs-clarence/swe-skills>, or copy each `skills/<name>` folder.
 4. Agree where artifacts live: assessments, plans, design docs, decision records. Use what the repo already does; if nothing, propose a location and ask. Record the answer in an Artifacts section of the instruction file.
 5. Add one line to the instruction file: follow the guidelines in `docs/guidelines`. Create `AGENTS.md` only if no instruction file exists.
 6. Overrides are optional. If the user wants to change a rule, write it as an override per `docs/guidelines/core/precedence.md` in the repo's own files, never in the installed folder.

@@ -19,11 +19,14 @@ def err(msg):
 
 
 def heading_slugs(path):
-    text = path.read_text(encoding="utf-8")
-    return {
-        re.sub(r"\s", "-", re.sub(r"[^\w\s-]", "", h.lower().strip()))
-        for h in re.findall(r"^#+\s+(.*)$", text, re.M)
-    }
+    text = re.sub(r"^```.*?^```", "", path.read_text(encoding="utf-8"), flags=re.S | re.M)
+    seen, slugs = {}, set()
+    for h in re.findall(r"^#+[ \t]+(.*)$", text, re.M):
+        base = re.sub(r"[ \t]", "-", re.sub(r"[^\w \t-]", "", h.lower().strip()))
+        n = seen.get(base, 0)
+        seen[base] = n + 1
+        slugs.add(base if n == 0 else f"{base}-{n}")
+    return slugs
 
 
 def check_skill(d, guidelines):
