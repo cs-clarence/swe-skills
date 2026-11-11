@@ -25,7 +25,7 @@ This skill decides what to do and in what order. It does not write code itself; 
    | Mixed | Order the parts above in the plan, one skill per part |
 
 4. Decide solo or split (`planning/agents.md#split-work-between-agents-only-when-it-pays`). Small work is solo. To split, say so in one line and load `swe-orchestrate` to choose an agent per slice; each agent runs the routed skill for its slice. Integration and final checks stay with you.
-5. Run the routed skills in plan order. Report revisions instead of absorbing them (`planning/agents.md#stop-and-re-plan-when-work-diverges`). `swe-author` ends with `swe-self-review`; for split work, review the combined result yourself.
+5. Run the routed skills in plan order. Report revisions instead of absorbing them (`planning/agents.md#stop-and-re-plan-when-work-diverges`). `swe-author` and `swe-debug` end with `swe-self-review`; for other solo work, such as documents only, run it yourself before handing back. For split work, review the combined result yourself.
 6. If unfinished, record progress where the next reader will find it (`planning/agents.md#leave-a-plan-another-agent-can-resume`). Check `core/definition-of-done.md` before handing back.
 
 Hand back with what was done, what was verified and how, what was left to CI, and open questions.
