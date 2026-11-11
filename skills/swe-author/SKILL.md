@@ -11,5 +11,6 @@ Uses `docs/guidelines` from swe-docs (<https://github.com/cs-clarence/swe-docs>)
 2. New projects, medium and large work, and any High-risk work need a plan first (short and written for medium) with `swe-plan` (or follow `planning/plan-a-change.md`, `planning/write-the-plan.md` and `planning/ready-to-build.md`). At High risk, wait for approval before building (`planning/agents.md`).
 3. Always read `docs/guidelines/core/principles.md`, `authoring/approach.md` and `authoring/agents.md`.
 4. Use the "Which files apply" table in `docs/guidelines/README.md` and read only the topic files that match the change.
-5. Bug fixes: `authoring/debugging-and-bug-fixing.md`. Refactors: `authoring/structure/refactoring.md`.
-6. Finish with `swe-self-review` and check `core/definition-of-done.md`.
+5. Documents (tutorials, how-to guides, reference, explanation, README, release notes, developer docs): read `authoring/documentation/documentation.md` and `authoring/documentation/choosing-a-type.md`, then the file for the chosen type. Update affected docs in the same change as the behavior.
+6. Bug fixes: `authoring/debugging-and-bug-fixing.md`. Refactors: `authoring/structure/refactoring.md`.
+7. Finish with `swe-self-review` and check `core/definition-of-done.md`.
