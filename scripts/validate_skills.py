@@ -1,28 +1,108 @@
 #!/usr/bin/env python3
-import re, sys
+"""Validate skills, the omni projection manifest, and references into swe-docs.
+
+Usage: python3 scripts/validate_skills.py --guidelines <path to swe-docs docs/guidelines> [--schema <projection schema json>]
+"""
+import argparse, json, re, sys
 from pathlib import Path
 
-root = Path(__file__).resolve().parent.parent
+import yaml
+
+ROOT = Path(__file__).resolve().parent.parent
+NAME_RE = re.compile(r"^[a-z0-9]+(-[a-z0-9]+)*$")
+MAX_LINES = 200
 errors = []
-skills = sorted(p for p in (root / "skills").iterdir() if p.is_dir())
-for d in skills:
+
+
+def err(msg):
+    errors.append(msg)
+
+
+def check_skill(d, guidelines):
     f = d / "SKILL.md"
     if not f.exists():
-        errors.append(f"{d.name}: missing SKILL.md")
-        continue
-    m = re.match(r"---\n(.*?)\n---\n", f.read_text(), re.S)
+        return err(f"{d.name}: missing SKILL.md")
+    text = f.read_text()
+    m = re.match(r"---\n(.*?)\n---\n(.*)", text, re.S)
     if not m:
-        errors.append(f"{d.name}: missing frontmatter")
-        continue
-    fm = dict(l.split(": ", 1) for l in m.group(1).splitlines() if ": " in l)
-    if fm.get("name") != d.name:
-        errors.append(f"{d.name}: name must match directory")
-    if not fm.get("description"):
-        errors.append(f"{d.name}: missing description")
-manifest = (root / "projection.omni.yaml").read_text()
-for d in skills:
-    if f"source: skills/{d.name}\n" not in manifest:
-        errors.append(f"{d.name}: not listed in projection.omni.yaml")
-for e in errors:
-    print(e)
-sys.exit(1 if errors else 0)
+        return err(f"{d.name}: missing frontmatter")
+    try:
+        fm = yaml.safe_load(m.group(1))
+    except yaml.YAMLError as e:
+        return err(f"{d.name}: invalid frontmatter: {e}")
+    if not isinstance(fm, dict):
+        return err(f"{d.name}: frontmatter must be a mapping")
+    extra = set(fm) - {"name", "description"}
+    if extra:
+        err(f"{d.name}: unknown frontmatter keys {sorted(extra)}")
+    name, desc = fm.get("name"), fm.get("description")
+    if name != d.name:
+        err(f"{d.name}: name must match directory")
+    if not isinstance(name, str) or not NAME_RE.match(name) or len(name) > 64:
+        err(f"{d.name}: name must be kebab-case, at most 64 chars")
+    if not isinstance(desc, str) or not desc.strip():
+        err(f"{d.name}: missing description")
+    else:
+        if len(desc) > 1024:
+            err(f"{d.name}: description over 1024 chars")
+        if not re.search(r"\bUse (when|for|after|before)\b", desc):
+            err(f"{d.name}: description must say when to use the skill ('Use when ...')")
+    body = m.group(2)
+    if len(text.splitlines()) > MAX_LINES:
+        err(f"{d.name}: SKILL.md over {MAX_LINES} lines")
+    if not body.lstrip().startswith("# "):
+        err(f"{d.name}: body must start with a '# ' title")
+    if "docs/guidelines" not in body:
+        err(f"{d.name}: must reference docs/guidelines")
+    for n in re.findall(r"\bswe-[a-z-]+\b", body):
+        if not (ROOT / "skills" / n).is_dir() and n != "swe-docs":
+            err(f"{d.name}: references unknown skill {n}")
+    for ref in set(re.findall(r"`([^`\s]+)`", body)):
+        if "/" not in ref and not ref.endswith(".md"):
+            continue
+        if ref in {"SKILL.md", "AGENTS.md"}:
+            continue
+        rel = ref.removeprefix("docs/guidelines").lstrip("/")
+        if not (guidelines / rel).exists():
+            err(f"{d.name}: `{ref}` does not exist in swe-docs")
+
+
+def check_manifest(skills, schema):
+    path = ROOT / "projection.omni.yaml"
+    manifest = yaml.safe_load(path.read_text())
+    if schema:
+        import jsonschema
+        for e in jsonschema.Draft202012Validator(json.loads(Path(schema).read_text())).iter_errors(manifest):
+            err(f"projection.omni.yaml: {'/'.join(map(str, e.absolute_path))}: {e.message}")
+    rules = [r for route in manifest.get("routes", []) for r in route.get("rules", [])]
+    sources = [r["source"] for r in rules]
+    dests = [r["dest"] for r in rules]
+    for dup in {x for x in dests if dests.count(x) > 1}:
+        err(f"projection.omni.yaml: duplicate dest {dup}")
+    for s in sources:
+        if not (ROOT / s / "SKILL.md").exists():
+            err(f"projection.omni.yaml: source {s} is not a skill")
+    for d in skills:
+        if f"skills/{d.name}" not in sources:
+            err(f"{d.name}: not listed in projection.omni.yaml")
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--guidelines", required=True)
+    ap.add_argument("--schema")
+    a = ap.parse_args()
+    guidelines = Path(a.guidelines)
+    if not (guidelines / "README.md").exists():
+        sys.exit(f"not a guidelines folder: {guidelines}")
+    skills = sorted(p for p in (ROOT / "skills").iterdir() if p.is_dir())
+    if not skills:
+        err("no skills found")
+    for d in skills:
+        check_skill(d, guidelines)
+    check_manifest(skills, a.schema)
+    print("\n".join(errors) or f"ok: {len(skills)} skills")
+    sys.exit(1 if errors else 0)
+
+
+main()
