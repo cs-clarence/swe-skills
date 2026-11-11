@@ -6,6 +6,7 @@ Agent skills that wrap the guidelines in [swe-docs](https://github.com/cs-claren
 
 | Skill | Use it when |
 | --- | --- |
+| `swe-assess` | Deciding the kind and risk tier of a change before planning |
 | `swe-plan` | Planning, sizing and breaking down work |
 | `swe-author` | Writing or changing code |
 | `swe-review` | Reviewing a change, plan or agent output |

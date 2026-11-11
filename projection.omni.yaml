@@ -8,6 +8,8 @@ routes:
     link: symlink
     on_existing: error
     rules:
+      - source: skills/swe-assess
+        dest: .agents/skills/swe-assess
       - source: skills/swe-plan
         dest: .agents/skills/swe-plan
       - source: skills/swe-author
