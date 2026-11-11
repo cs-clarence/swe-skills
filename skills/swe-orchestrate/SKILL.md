@@ -13,7 +13,7 @@ Not user-invoked; `swe-execute` loads it. swe-docs owns whether to split, the br
 1. Confirm the split is worth it (`planning/agents.md#split-work-between-agents-only-when-it-pays`). Slices must be independent, bounded and checkable on their own, with contracts agreed first for large work (`planning/approaches/large-work.md#agree-ownership-and-interfaces-up-front`).
 2. List the agents the harness offers, with their model, tools and permissions. Use only what exists; never assume a name. If only one kind exists, the choice below reduces to read-only versus write.
 3. Read `.agents/agent-choices.local.md` if it exists (a personal, git-ignored file from `swe-init`). A choice recorded there for a kind of work wins over the table, unless that agent is no longer offered; then say so and fall back. For the rest, pick the agent with the table. Take the cheapest agent that can do the slice reliably.
-4. Brief each one (`planning/agents.md#give-delegated-work-a-self-contained-brief`) with the checks its change can affect (`planning/agents.md#scope-each-parts-checks-to-its-change`). Add the agent's expected output shape.
+4. Brief each one (`planning/agents.md#give-delegated-work-a-self-contained-brief`) with the checks its change can affect (`planning/agents.md#scope-each-parts-checks-to-its-change`). Ask for a report (see Agent reports).
 5. Integrate and run the broad checks once, yourself (`planning/agents.md#run-the-broad-checks-once-at-integration`).
 
 ## Choosing the agent for a slice
@@ -35,6 +35,12 @@ Adjust by these traits, in order:
 4. **Context needed.** If the slice depends on most of what you know, do it yourself. Delegate when a short brief is enough.
 5. **Parallel or serial.** Run slices in parallel only when they touch different files or modules and need no output from each other. Otherwise run them in order.
 6. **Isolation.** Slices that write to overlapping files need separate checkouts or must be serialized. Never let two writers share files.
+
+## Agent reports
+
+Ask each agent to end with a short report: what it changed or found, which checks it ran and which it did not, open questions, and anything the brief did not anticipate. The report is a claim; the diff and your own check runs are the evidence.
+
+Use a file instead only when the result is too big for a message, several later slices need the same output, or you need to keep bulk out of your context. Have the agent write it to the temp directory or a git-ignored path, and return a short summary plus the path. Delete it after integration. Progress that must outlive the session goes in the plan (`planning/agents.md#leave-a-plan-another-agent-can-resume`), not in a handoff file.
 
 ## While agents run
 
