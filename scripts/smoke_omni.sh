@@ -5,7 +5,7 @@ root="$(cd "$(dirname "$0")/.." && pwd)"
 ws="$(mktemp -d)"
 trap 'rm -rf "$ws"' EXIT
 mkdir "$ws/src"
-git -C "$root" ls-files -z | (cd "$root" && xargs -0 cp --parents -t "$ws/src")
+git -C "$root" ls-files -z --cached --others --exclude-standard | (cd "$root" && xargs -0 cp --parents -t "$ws/src")
 cd "$ws"
 git init -q
 cat > workspace.omni.yaml <<YAML
