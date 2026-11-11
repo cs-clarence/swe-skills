@@ -12,6 +12,6 @@ Guidelines live in `docs/guidelines` of the current repository (installed from <
 3. If unknowns dominate, run a short, bounded experiment on the riskiest one, then assess again.
 4. Pick the lightest kind that fits. When unsure between two kinds or two tiers, take the larger or higher one.
 5. State the assessment with the same points every time: kind, risk tier, answers to the four questions, main unknowns, next step, and what would move the work up a kind.
-6. Take the plan's shape from the kind and the rigor from the tier. Next step: the matching file in `planning/approaches/`, then the `swe-plan` skill for medium or large work and for any High-risk work whatever its size, or `swe-author` for small work that is not High risk.
+6. Take the plan's shape from the kind and the rigor from the tier. Next step: the matching file in `planning/approaches/`, then the `swe-plan` skill for new projects, for medium or large work, and for any High-risk work whatever its size, or `swe-author` for small work that is not a new project and not High risk.
 7. Reassess when the work grows. If it outgrows the assessment, follow `core/when-to-ask.md`.
 8. Put the assessment where the plan belongs, found as `planning/write-the-plan.md` describes.
