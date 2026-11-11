@@ -22,6 +22,7 @@ jobs:
         run: git clone --quiet --depth 1 https://github.com/cs-clarence/swe-docs "$RUNNER_TEMP/swe-docs"
       - name: Validate skills against swe-docs main
         id: validate
+        shell: bash
         run: python3 scripts/validate_skills.py --guidelines "$RUNNER_TEMP/swe-docs/docs/guidelines" | tee "$RUNNER_TEMP/report.txt"
       - name: Open issue on drift
         if: failure() && steps.validate.outcome == 'failure'

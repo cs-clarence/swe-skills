@@ -19,6 +19,6 @@ omni projection sync
 omni projection status
 for d in "$root"/skills/*/; do
   n="$(basename "$d")"
-  [ -f ".agents/skills/$n/SKILL.md" ] || { echo "missing installed skill: $n"; exit 1; }
+  [ -L ".agents/skills/$n" ] && [ -f ".agents/skills/$n/SKILL.md" ] || { echo "missing installed skill: $n"; exit 1; }
 done
 echo "ok: omni installed all skills"

@@ -22,7 +22,7 @@ def check_skill(d, guidelines):
     f = d / "SKILL.md"
     if not f.exists():
         return err(f"{d.name}: missing SKILL.md")
-    text = f.read_text()
+    text = f.read_text(encoding="utf-8")
     m = re.match(r"---\n(.*?)\n---\n(.*)", text, re.S)
     if not m:
         return err(f"{d.name}: missing frontmatter")
@@ -69,12 +69,20 @@ def check_skill(d, guidelines):
 
 def check_manifest(skills, schema):
     path = ROOT / "projection.omni.yaml"
-    manifest = yaml.safe_load(path.read_text())
+    manifest = yaml.safe_load(path.read_text(encoding="utf-8"))
+    if not isinstance(manifest, dict):
+        return err("projection.omni.yaml: must be a mapping")
     if schema:
         import jsonschema
-        for e in jsonschema.Draft202012Validator(json.loads(Path(schema).read_text())).iter_errors(manifest):
+        for e in jsonschema.Draft202012Validator(json.loads(Path(schema).read_text(encoding="utf-8"))).iter_errors(manifest):
             err(f"projection.omni.yaml: {'/'.join(map(str, e.absolute_path))}: {e.message}")
-    rules = [r for route in manifest.get("routes", []) for r in route.get("rules", [])]
+    rules = []
+    for route in manifest.get("routes") or []:
+        rules.extend(route.get("rules") or [])
+    for r in rules:
+        if not isinstance(r, dict) or not r.get("source") or not r.get("dest"):
+            err(f"projection.omni.yaml: rule needs source and dest: {r}")
+    rules = [r for r in rules if isinstance(r, dict) and r.get("source") and r.get("dest")]
     sources = [r["source"] for r in rules]
     dests = [r["dest"] for r in rules]
     for dup in {x for x in dests if dests.count(x) > 1}:

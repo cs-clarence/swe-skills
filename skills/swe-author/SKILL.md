@@ -10,4 +10,4 @@ Guidelines live in `docs/guidelines` of the current repository (installed from <
 1. Always read `docs/guidelines/core/principles.md`, `authoring/approach.md` and `authoring/agents.md`.
 2. Open `docs/guidelines/README.md` and use the "Which files apply" table to read only the topic files that match the change (testing, error handling, security, database, structure, style, and so on).
 3. Bug fixes: `authoring/debugging-and-bug-fixing.md`. Refactors: `authoring/structure/refactoring.md`.
-4. Finish with the `swe-self-review` skill and `core/definition-of-done.md`.
+4. Finish with the `swe-self-review` skill if installed, otherwise follow `authoring/self-review.md`, and check `core/definition-of-done.md`.

@@ -31,6 +31,8 @@ projections:
     rev: main # pin a tag or commit to control when updates arrive
 ```
 
+Then run `omni projection sync` from the workspace to create the links.
+
 ## Maintaining
 
 Add a skill under `skills/<name>/SKILL.md` and a matching rule in `projection.omni.yaml`. CI lints, validates skills against swe-docs pinned in `.github/swe-docs.ref`, and installs the projection with omni. A weekly job checks against swe-docs `main` and opens an issue on drift. Bump the ref deliberately.
