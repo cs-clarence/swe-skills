@@ -1,6 +1,6 @@
 # Artifacts and checks
 
-Details for `swe-init` steps 4 and 5.
+Details for `swe-init` steps 4, 5 and 6.
 
 ## Default artifact layout
 
@@ -28,3 +28,17 @@ Record in a Checks section of the instruction file, so agents need not guess:
 - Whether only CI runs it.
 
 `planning/agents.md#scope-each-parts-checks-to-its-change` and `planning/agents.md#run-the-broad-checks-once-at-integration` rely on this. Record what you detected, ask only where detection is unclear, and never invent a command.
+
+## Agents file
+
+Optional and personal: each user has different agents and models, so keep it out of version control.
+
+- Write it to `.agents/agent-choices.local.md`; `swe-orchestrate` reads only this path, so do not use another. Add that path to the repo's `.gitignore` (create the file if missing, append, never overwrite), show the change, and confirm the file is ignored with `git check-ignore`. If the path is already tracked, offer to untrack it (`git rm --cached`) with the user's approval; otherwise skip personal choices, since no other path is read.
+- Do not add it to the instruction file. `swe-orchestrate` reads this path directly.
+- One line per kind of work: explore, research, bounded edit, hard design or debugging, independent review.
+- Name the agent or model exactly as the harness does, with an optional override condition, such as High risk.
+- Leave a kind out to keep the default.
+- To infer it, read what the harness offers and use the table in `swe-orchestrate`. Mark each line as inferred, give a one-line reason, and write nothing until the user accepts or edits it. If the harness lists too little to infer a kind, leave it out.
+- Ask which agent the user runs and list only what it offers. Never record an agent you could not confirm exists.
+- On rerun, check the file still lists agents that exist; models change.
+- A team-wide rule belongs in the committed instruction file, only if the whole team shares those agents.
