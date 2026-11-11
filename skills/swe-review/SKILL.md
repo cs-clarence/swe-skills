@@ -11,4 +11,5 @@ Guidelines live in `docs/guidelines` of the current repository (installed from <
 2. Use `reviewing/by-tier.md` to pick checks for the change's risk tier, then read the matching files in `reviewing/checks/`.
 3. High-risk security changes: `reviewing/checks/threat-review.md`. Plans: `reviewing/checks/planning/`.
 4. If you are an agent doing the review, read `reviewing/agents.md` whatever the author was; it also covers reviewing agent output.
-5. Report findings in the format from `reviewing/feedback.md`.
+5. If work was split between agents, check it against `reviewing/checks/planning/agents.md`. At High risk, confirm every agent-authored part was checked by someone other than its author.
+6. Report findings in the format from `reviewing/feedback.md`.

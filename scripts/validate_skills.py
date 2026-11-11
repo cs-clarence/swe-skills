@@ -18,6 +18,17 @@ def err(msg):
     errors.append(msg)
 
 
+def heading_slugs(path):
+    text = re.sub(r"^```.*?^```", "", path.read_text(encoding="utf-8"), flags=re.S | re.M)
+    seen, slugs = {}, set()
+    for h in re.findall(r"^#+[ \t]+(.*)$", text, re.M):
+        base = re.sub(r"[ \t]", "-", re.sub(r"[^\w \t-]", "", h.lower().strip()))
+        n = seen.get(base, 0)
+        seen[base] = n + 1
+        slugs.add(base if n == 0 else f"{base}-{n}")
+    return slugs
+
+
 def check_skill(d, guidelines):
     f = d / "SKILL.md"
     if not f.exists():
@@ -55,16 +66,16 @@ def check_skill(d, guidelines):
     if "docs/guidelines" not in body:
         err(f"{d.name}: must reference docs/guidelines")
     for n in re.findall(r"\bswe-[a-z-]+\b", body):
-        if not (ROOT / "skills" / n).is_dir() and n != "swe-docs":
+        if not (ROOT / "skills" / n).is_dir() and n not in {"swe-docs", "swe-skills"}:
             err(f"{d.name}: references unknown skill {n}")
     for ref in set(re.findall(r"`([^`\s]+)`", body)):
-        if "/" not in ref and not ref.endswith(".md"):
+        rel, _, anchor = ref.removeprefix("docs/guidelines").lstrip("/").partition("#")
+        if not re.match(r"(core|planning|authoring|reviewing)/|README\.md$|CHANGELOG\.md$", rel) and rel:
             continue
-        if ref in {"SKILL.md", "AGENTS.md"}:
-            continue
-        rel = ref.removeprefix("docs/guidelines").lstrip("/")
         if not (guidelines / rel).exists():
             err(f"{d.name}: `{ref}` does not exist in swe-docs")
+        elif anchor and anchor not in heading_slugs(guidelines / rel):
+            err(f"{d.name}: `{ref}` heading does not exist in swe-docs")
 
 
 def check_manifest(skills, schema):

@@ -10,6 +10,9 @@ Agent skills that wrap the guidelines in [swe-docs](https://github.com/cs-claren
 | `swe-plan` | Planning, sizing and breaking down work |
 | `swe-author` | Writing or changing code |
 | `swe-review` | Reviewing a change, plan or agent output |
+| `swe-debug` | Finding and fixing a defect |
+| `swe-release` | Shipping a change and being able to undo it |
+| `swe-init` | Optional: setting up swe-docs and these skills in a repo |
 | `swe-self-review` | Checking your own change before handing back |
 
 The skills read the guidelines at `docs/guidelines`, so install [swe-docs](https://github.com/cs-clarence/swe-docs) too.
