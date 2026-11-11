@@ -28,6 +28,7 @@ jobs:
         if: failure() && steps.validate.outcome == 'failure'
         env:
           GH_TOKEN: ${{ github.token }}
+        shell: bash
         run: |
           {
             echo "Validation against swe-docs main failed:"
