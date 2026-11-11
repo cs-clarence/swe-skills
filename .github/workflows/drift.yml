@@ -39,7 +39,7 @@ jobs:
             echo "Run: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
           } > "$RUNNER_TEMP/body.md"
           title="Skills drifted from swe-docs main"
-          existing="$(gh issue list --state open --search "$title in:title" --json number --jq '.[0].number // empty')"
+          existing="$(gh issue list --state open --search "$title in:title" --json number,title | jq -r --arg t "$title" '[.[] | select(.title == $t)][0].number // empty')"
           if [ -n "$existing" ]; then
             gh issue comment "$existing" --body-file "$RUNNER_TEMP/body.md"
           else
