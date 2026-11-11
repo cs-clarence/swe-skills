@@ -55,7 +55,9 @@ def check_skill(d, guidelines):
         return err(f"{d.name}: invalid frontmatter: {e}")
     if not isinstance(fm, dict):
         return err(f"{d.name}: frontmatter must be a mapping")
-    extra = set(fm) - {"name", "description"}
+    extra = set(fm) - {"name", "description", "user-invocable"}
+    if "user-invocable" in fm and not isinstance(fm["user-invocable"], bool):
+        err(f"{d.name}: user-invocable must be true or false")
     if extra:
         err(f"{d.name}: unknown frontmatter keys {sorted(extra)}")
     name, desc = fm.get("name"), fm.get("description")
