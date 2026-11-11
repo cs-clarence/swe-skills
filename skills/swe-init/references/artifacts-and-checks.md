@@ -33,7 +33,7 @@ Record in a Checks section of the instruction file, so agents need not guess:
 
 Optional and personal: each user has different agents and models, so keep it out of version control.
 
-- Write it to `.agents/agent-choices.local.md`, or the path the user prefers. Add that exact path to the repo's `.gitignore` (create the file if missing, append, never overwrite), show the change, and confirm the file is ignored with `git check-ignore`. If the path is already tracked, stop and choose another.
+- Write it to `.agents/agent-choices.local.md`; `swe-orchestrate` reads only this path, so do not use another. Add that path to the repo's `.gitignore` (create the file if missing, append, never overwrite), show the change, and confirm the file is ignored with `git check-ignore`. If the path is already tracked, stop and choose another.
 - Do not add it to the instruction file. `swe-orchestrate` reads this path directly.
 - One line per kind of work: explore, research, bounded edit, hard design or debugging, independent review.
 - Name the agent or model exactly as the harness does, with an optional override condition, such as High risk.

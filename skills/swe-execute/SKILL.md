@@ -12,7 +12,7 @@ This skill decides what to do and in what order. It does not write code itself; 
 1. Find the input: the task as given, or plan artifacts (plan, design doc, decision records, where the repo keeps them; see `planning/write-the-plan.md`). If there is neither, ask the user what to execute. Do not invent a task.
 2. Gate. Skip what is already done and pass it on, so no skill repeats it:
    - Task only: assess with `swe-assess`. Medium, large, new-project and High-risk work needs `swe-plan` first, and High risk waits for approval (`planning/agents.md`).
-   - Plan given: check it against `planning/ready-to-build.md`. If it is not ready or work differs from it, stop and follow `core/when-to-ask.md`.
+   - Plan given: find its risk tier and check it against `planning/ready-to-build.md`. If it is not ready or work differs from it, stop and follow `core/when-to-ask.md`. At High risk, confirm explicit approval before delegating or building; if it is missing, stop and ask, unless the user explicitly told you to proceed (`planning/agents.md`).
 3. Route by kind of work:
 
    | The work is | Use |
