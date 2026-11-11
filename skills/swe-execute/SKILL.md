@@ -1,18 +1,31 @@
 ---
 name: swe-execute
-description: "Carry out a task or an approved plan end to end, delegating slices to agents when it pays. Use when asked to implement, build or execute a task, plan or plan artifacts."
+description: "Decide how to carry out a task or an approved plan and route it to the right skill, delegating slices to agents when it pays. Use when asked to implement, build, fix or execute a task, plan or plan artifacts and the path is not already clear."
 ---
 
 # Execute with swe-docs
 
 Uses `docs/guidelines` from swe-docs (<https://github.com/cs-clarence/swe-docs>). If it is missing, say so and stop; do not invent rules. Repo overrides win (`docs/guidelines/core/precedence.md`). If a skill named below is not installed, follow the guideline files it covers. Scale effort to risk (`core/risk-tiers.md`).
 
-1. Find the input: the task as given, or plan artifacts (the plan, design doc or decision records, where the repo keeps them; see `planning/write-the-plan.md`). If there is neither, ask the user what to execute. Do not invent a task.
-2. If the input is only a task, assess it with `swe-assess`. Medium, large, new-project and High-risk work needs a plan first (`swe-plan`). At High risk, wait for approval before building (`planning/agents.md`).
-3. If the input is a plan, check it against `planning/ready-to-build.md`. If it is not ready, or work differs from it, stop and follow `core/when-to-ask.md`.
-4. Decide solo or split from the assessment and plan (`planning/agents.md#split-work-between-agents-only-when-it-pays`). Small work is solo. If splitting, say so in one line and load `swe-orchestrate` to choose agents and integrate. Otherwise continue solo.
-5. Build with `swe-author`, or `swe-debug` for a defect. Follow the plan's steps in order and report revisions instead of absorbing them (`planning/agents.md#stop-and-re-plan-when-work-diverges`).
-6. Finish with `swe-self-review` and `core/definition-of-done.md`. For work that ships or is hard to undo, also use `swe-release`.
-7. Record progress where the next reader will find it if the work is not finished (`planning/agents.md#leave-a-plan-another-agent-can-resume`).
+This skill decides what to do and in what order. It does not write code itself; the skills below do the work.
 
-Hand back with what was done, what was verified and how, what was left to CI, and any open questions.
+1. Find the input: the task as given, or plan artifacts (plan, design doc, decision records, where the repo keeps them; see `planning/write-the-plan.md`). If there is neither, ask the user what to execute. Do not invent a task.
+2. Gate. Skip what is already done and pass it on, so no skill repeats it:
+   - Task only: assess with `swe-assess`. Medium, large, new-project and High-risk work needs `swe-plan` first, and High risk waits for approval (`planning/agents.md`).
+   - Plan given: check it against `planning/ready-to-build.md`. If it is not ready or work differs from it, stop and follow `core/when-to-ask.md`.
+3. Route by kind of work:
+
+   | The work is | Use |
+   | --- | --- |
+   | Writing or changing code, tests, interfaces, dependencies | `swe-author` |
+   | A defect, failing test or regression | `swe-debug` |
+   | Documents only | `swe-docs-write` |
+   | Shipping, deploying, data migration, published interface | `swe-release`, after the change is built |
+   | Reviewing a change, plan or agent output | `swe-review` |
+   | Mixed | Order the parts above in the plan, one skill per part |
+
+4. Decide solo or split (`planning/agents.md#split-work-between-agents-only-when-it-pays`). Small work is solo. To split, say so in one line and load `swe-orchestrate` to choose an agent per slice; each agent runs the routed skill for its slice. Integration and final checks stay with you.
+5. Run the routed skills in plan order. Report revisions instead of absorbing them (`planning/agents.md#stop-and-re-plan-when-work-diverges`). `swe-author` ends with `swe-self-review`; for split work, review the combined result yourself.
+6. If unfinished, record progress where the next reader will find it (`planning/agents.md#leave-a-plan-another-agent-can-resume`). Check `core/definition-of-done.md` before handing back.
+
+Hand back with what was done, what was verified and how, what was left to CI, and open questions.
