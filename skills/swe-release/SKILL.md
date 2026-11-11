@@ -5,7 +5,7 @@ description: "Prepare to ship a change and be able to undo it, following the swe
 
 # Release with swe-docs
 
-Guidelines live in `docs/guidelines` of the current repository (installed from <https://github.com/cs-clarence/swe-docs>). If that folder is missing, tell the user and point them to the swe-docs README install section; do not invent rules. Repository overrides take precedence per `docs/guidelines/core/precedence.md`. Scale effort to risk using `docs/guidelines/core/risk-tiers.md`.
+Uses `docs/guidelines` from swe-docs (<https://github.com/cs-clarence/swe-docs>). If it is missing, say so and stop; do not invent rules. Repo overrides win (`docs/guidelines/core/precedence.md`). If a skill named below is not installed, follow the guideline files it covers.
 
 1. Read `docs/guidelines/authoring/releases-and-rollback.md`. State the rollback path, or why the change cannot be undone and what applies instead.
 2. Changing an API, format or other published interface: `authoring/interfaces-and-compatibility.md`.

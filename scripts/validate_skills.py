@@ -29,6 +29,18 @@ def heading_slugs(path):
     return slugs
 
 
+def check_refs(name, text, guidelines):
+    for ref in set(re.findall(r"`([^`\s]+)`", text)):
+        explicit = ref.startswith("docs/guidelines/")
+        rel, _, anchor = ref.removeprefix("docs/guidelines").lstrip("/").partition("#")
+        if not explicit and not re.match(r"(core|planning|authoring|reviewing)/|README\.md$|CHANGELOG\.md$", rel):
+            continue
+        if not (guidelines / rel).exists():
+            err(f"{name}: `{ref}` does not exist in swe-docs")
+        elif anchor and anchor not in heading_slugs(guidelines / rel):
+            err(f"{name}: `{ref}` heading does not exist in swe-docs")
+
+
 def check_skill(d, guidelines):
     f = d / "SKILL.md"
     if not f.exists():
@@ -68,14 +80,8 @@ def check_skill(d, guidelines):
     for n in re.findall(r"\bswe-[a-z-]+\b", body):
         if not (ROOT / "skills" / n).is_dir() and n not in {"swe-docs", "swe-skills"}:
             err(f"{d.name}: references unknown skill {n}")
-    for ref in set(re.findall(r"`([^`\s]+)`", body)):
-        rel, _, anchor = ref.removeprefix("docs/guidelines").lstrip("/").partition("#")
-        if not re.match(r"(core|planning|authoring|reviewing)/|README\.md$|CHANGELOG\.md$", rel) and rel:
-            continue
-        if not (guidelines / rel).exists():
-            err(f"{d.name}: `{ref}` does not exist in swe-docs")
-        elif anchor and anchor not in heading_slugs(guidelines / rel):
-            err(f"{d.name}: `{ref}` heading does not exist in swe-docs")
+    for md in d.rglob("*.md"):
+        check_refs(d.name, md.read_text(encoding="utf-8") if md != f else body, guidelines)
 
 
 def check_manifest(skills, schema):

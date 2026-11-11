@@ -21,7 +21,7 @@ The skills read the guidelines at `docs/guidelines`, so install [swe-docs](https
 
 ### Copy or `npx skills`
 
-Each skill is `skills/<name>/SKILL.md`. Copy or install them with any tool that reads that layout, for example `npx skills add cs-clarence/swe-skills`.
+Each skill is a folder `skills/<name>/` with a `SKILL.md` and sometimes a `references/` folder. Copy the whole folder, not only `SKILL.md`. Copy or install them with any tool that reads that layout, for example `npx skills add cs-clarence/swe-skills`.
 
 ### With omni
 

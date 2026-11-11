@@ -5,7 +5,7 @@ description: "Review a change, diff or pull request using the swe-docs reviewing
 
 # Review with swe-docs
 
-Guidelines live in `docs/guidelines` of the current repository (installed from <https://github.com/cs-clarence/swe-docs>). If that folder is missing, tell the user and point them to the swe-docs README install section; do not invent rules. Repository overrides take precedence per `docs/guidelines/core/precedence.md`. Scale effort to risk using `docs/guidelines/core/risk-tiers.md`.
+Uses `docs/guidelines` from swe-docs (<https://github.com/cs-clarence/swe-docs>). If it is missing, say so and stop; do not invent rules. Repo overrides win (`docs/guidelines/core/precedence.md`). If a skill named below is not installed, follow the guideline files it covers.
 
 1. Read `docs/guidelines/reviewing/process.md` and `reviewing/feedback.md`.
 2. Use `reviewing/by-tier.md` to pick checks for the change's risk tier, then read the matching files in `reviewing/checks/`.
