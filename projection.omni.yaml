@@ -18,3 +18,11 @@ routes:
         dest: .agents/skills/swe-review
       - source: skills/swe-self-review
         dest: .agents/skills/swe-self-review
+      - source: skills/swe-debug
+        dest: .agents/skills/swe-debug
+      - source: skills/swe-release
+        dest: .agents/skills/swe-release
+      - source: skills/swe-init
+        dest: .agents/skills/swe-init
+      - source: skills/swe-docs-write
+        dest: .agents/skills/swe-docs-write
