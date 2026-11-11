@@ -1,0 +1,41 @@
+name: Drift
+
+on:
+  schedule:
+    - cron: "0 6 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  drift:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: "3.12"
+      - run: pip install pyyaml==6.0.2
+      - name: Fetch swe-docs main
+        run: git clone --quiet --depth 1 https://github.com/cs-clarence/swe-docs "$RUNNER_TEMP/swe-docs"
+      - name: Validate skills against swe-docs main
+        id: validate
+        shell: bash
+        run: python3 scripts/validate_skills.py --guidelines "$RUNNER_TEMP/swe-docs/docs/guidelines" | tee "$RUNNER_TEMP/report.txt"
+      - name: Open issue on drift
+        if: failure() && steps.validate.outcome == 'failure'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          {
+            echo "Validation against swe-docs main failed:"
+            echo
+            echo '```'
+            cat "$RUNNER_TEMP/report.txt"
+            echo '```'
+            echo
+            echo "Run: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+          } > "$RUNNER_TEMP/body.md"
+          gh issue create --title "Skills drifted from swe-docs main" --body-file "$RUNNER_TEMP/body.md"

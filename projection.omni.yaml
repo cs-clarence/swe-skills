@@ -1,0 +1,20 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/omni-oss/json-schemas/main/projection.json
+name: swe-skills
+description: Agent skills that wrap the swe-docs guidelines. Links each skill into a consuming repository.
+
+# One rule per skill. Add a rule here when adding a skill under skills/.
+routes:
+  - strategy: explicit
+    link: symlink
+    on_existing: error
+    rules:
+      - source: skills/swe-assess
+        dest: .agents/skills/swe-assess
+      - source: skills/swe-plan
+        dest: .agents/skills/swe-plan
+      - source: skills/swe-author
+        dest: .agents/skills/swe-author
+      - source: skills/swe-review
+        dest: .agents/skills/swe-review
+      - source: skills/swe-self-review
+        dest: .agents/skills/swe-self-review

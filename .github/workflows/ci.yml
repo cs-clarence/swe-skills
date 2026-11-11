@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: "3.12"
+      - uses: omni-oss/setup-omni@d55bbb41a2549a04616dd5a8699776907827be2f
+        with:
+          version: "0.21.0"
+      - name: Install tools
+        run: pip install pyyaml==6.0.2 jsonschema==4.23.0 yamllint==1.35.1 typos==1.28.4
+      - name: Lint YAML
+        run: yamllint --strict .
+      - name: Lint Markdown
+        run: npx --yes markdownlint-cli2@0.17.2 "**/*.md"
+      - name: Lint workflows
+        run: docker run --rm -v "$PWD:/repo" -w /repo rhysd/actionlint:1.7.7 -color
+      - name: Spell check
+        run: typos
+      - name: Fetch swe-docs at pinned ref
+        run: |
+          git clone --quiet https://github.com/cs-clarence/swe-docs "$RUNNER_TEMP/swe-docs"
+          git -C "$RUNNER_TEMP/swe-docs" checkout --quiet "$(cat .github/swe-docs.ref)"
+      - name: Validate skills and manifest
+        run: |
+          omni config schema projection > "$RUNNER_TEMP/projection.schema.json"
+          python3 scripts/validate_skills.py \
+            --guidelines "$RUNNER_TEMP/swe-docs/docs/guidelines" \
+            --schema "$RUNNER_TEMP/projection.schema.json"
+      - name: Install with omni
+        run: scripts/smoke_omni.sh
