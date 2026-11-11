@@ -7,7 +7,7 @@ description: "Plan a change before building: choose an approach, size it, break 
 
 Guidelines live in `docs/guidelines` of the current repository (installed from <https://github.com/cs-clarence/swe-docs>). If that folder is missing, tell the user and point them to the swe-docs README install section; do not invent rules. Repository overrides take precedence per `docs/guidelines/core/precedence.md`. Scale effort to risk using `docs/guidelines/core/risk-tiers.md`.
 
-1. Use the assessment from the `swe-assess` skill if there is one, otherwise do it first. Read the matching approach file in `docs/guidelines/planning/approaches/`.
+1. Use the assessment from the `swe-assess` skill if there is one. Otherwise do it first with that skill if installed, or by reading `planning/approaches/choose-the-approach.md` and `core/risk-tiers.md` yourself. Read the matching approach file in `docs/guidelines/planning/approaches/`.
 2. Read `planning/plan-a-change.md`, `planning/break-down-work.md` and `planning/change-size.md`.
 3. For migrations or replacements read `planning/large-changes.md`; for design docs read `planning/design-docs.md`.
 4. Check the plan against `planning/ready-to-build.md` before starting.
