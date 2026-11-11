@@ -31,8 +31,9 @@ def heading_slugs(path):
 
 def check_refs(name, text, guidelines):
     for ref in set(re.findall(r"`([^`\s]+)`", text)):
+        explicit = ref.startswith("docs/guidelines/")
         rel, _, anchor = ref.removeprefix("docs/guidelines").lstrip("/").partition("#")
-        if not re.match(r"(core|planning|authoring|reviewing)/|README\.md$|CHANGELOG\.md$", rel) and rel:
+        if not explicit and not re.match(r"(core|planning|authoring|reviewing)/|README\.md$|CHANGELOG\.md$", rel):
             continue
         if not (guidelines / rel).exists():
             err(f"{name}: `{ref}` does not exist in swe-docs")
