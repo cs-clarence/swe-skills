@@ -14,7 +14,7 @@ Agent skills that wrap the guidelines in [swe-docs](https://github.com/cs-claren
 | `swe-review` | Reviewing a change, plan or agent output |
 | `swe-debug` | Finding and fixing a defect |
 | `swe-release` | Shipping a change and being able to undo it |
-| `swe-init` | Optional: setting up swe-docs and these skills in a repo |
+| `swe-init` | Optional: setting up swe-docs and these skills in a repo, and documenting its checks, tooling, patterns and git workflow |
 | `swe-self-review` | Checking your own change before handing back |
 | `swe-orchestrate` | Not user-invoked; `swe-execute` loads it to choose the agent for each slice |
 
