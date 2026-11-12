@@ -9,12 +9,12 @@ Docs that drift stop being trusted, so every doc written by `swe-init` (Checks, 
 - Place it at the top or bottom, as a one- or two-line "Keeping this up to date" note: these docs describe how the repo works today; change them in the same PR as the change that makes them wrong (a new library, command, generator or convention); fix or delete stale entries rather than leave them.
 - For patterns, also say: when a pattern changes, update its example paths and the `README.md` index.
 - Do not add dates or version stamps; they rot. Reuse the repo's own wording if it already has such a note, and never add a second one.
-- The instruction file gets the agent-only counterpart, one line: update these docs in the same change when you alter the tooling, a pattern or the git workflow they describe.
+- The instruction file gets the agent-only counterpart, one line: update these docs in the same change when you alter the check commands, tooling, a pattern or the git workflow they describe.
 
 ## Where it is written
 
-- Human docs: Artifacts, Checks, Tooling, Patterns and Git sections below are written for any contributor, in plain prose or short lists, with no agent instructions. Place them in the repo's existing contributor docs; if none, propose `CONTRIBUTING.md` for Checks and Git, a `docs/` page for Tooling, and `docs/patterns/` (with a `README.md` index) for Patterns, and ask. Keep them apart from `docs/guidelines`.
-- Instruction file: only a pointer to each doc, the guidelines line, and agent-only rules (for example: commit, push and open PRs only when asked; never edit generated files; run checks with the non-interactive commands). The git default's agent rules (last bullets) go here; the rest of it goes in the human doc.
+- Human docs: Checks, Tooling, Patterns and Git sections below are written for any contributor, in plain prose or short lists, with no agent instructions. Place them in the repo's existing contributor docs; if none, propose `CONTRIBUTING.md` for Checks and Git, a `docs/` page for Tooling, and `docs/patterns/` (with a `README.md` index) for Patterns, and ask. Keep them apart from `docs/guidelines`.
+- Instruction file: the Artifacts section (other skills look it up there), a pointer to each doc, the guidelines line, and agent-only rules (for example: commit, push and open PRs only when asked; never edit generated files; run checks with the non-interactive commands). The git default's agent rules (last bullets) go here; the rest of it goes in the human doc.
 - Never duplicate a fact in both; link from the instruction file instead. The personal agents file stays separate and git-ignored.
 
 ## Default artifact layout
