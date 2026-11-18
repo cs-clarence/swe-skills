@@ -11,10 +11,11 @@ Uses `docs/guidelines` from swe-docs (<https://github.com/cs-clarence/swe-docs>)
 Not user-invoked; `swe-execute` loads it. swe-docs owns whether to split, the brief, per-part checks and integration (`planning/agents.md`). This skill only adds how to choose the agent for each slice. If `planning/agents.md` or its headings are missing, tell the user to update swe-docs and work solo.
 
 1. Confirm the split is worth it (`planning/agents.md#split-work-between-agents-only-when-it-pays`). Slices must be independent, bounded and checkable on their own, with contracts agreed first for large work (`planning/approaches/large-work.md#agree-ownership-and-interfaces-up-front`).
-2. List the agents the harness offers, with their model, tools and permissions. Use only what exists; never assume a name. If only one kind exists, the choice below reduces to read-only versus write.
+2. List the agents the harness offers, with their model, tools and permissions. Use only what exists; never assume a name. Rank the models as fast, mid or strong from what the harness lists; ask if you cannot tell. If only one kind exists, the choice below reduces to read-only versus write.
 3. Read `.agents/agent-choices.local.md` if it exists (a personal, git-ignored file from `swe-init`). A choice recorded there for a kind of work wins over the table, unless that agent is no longer offered; then say so and fall back. For the rest, pick the agent with the table. Take the cheapest agent that can do the slice reliably.
 4. Brief each one (`planning/agents.md#give-delegated-work-a-self-contained-brief`) with the checks its change can affect (`planning/agents.md#scope-each-parts-checks-to-its-change`). Ask for a report (see Agent reports).
 5. Integrate and run the broad checks once, yourself (`planning/agents.md#run-the-broad-checks-once-at-integration`).
+6. At Medium risk and above, enforce the [independent review gate](../swe-review/references/independent-review-gate.md) for each agent-authored part and the integrated result. Assign a different reviewer for anything you authored yourself. Do not treat agent reports or your integration checks as an independent PASS.
 
 ## Choosing the agent for a slice
 
@@ -24,13 +25,13 @@ Not user-invoked; `swe-execute` loads it. swe-docs owns whether to split, the br
 | Research outside the repo (docs, APIs, versions) | Agent with web access, read-only | Keeps untrusted content away from write access |
 | Bounded edit with a settled interface and clear tests | General-purpose writer, mid-tier model | Well specified, so cost matters more than depth |
 | Ambiguous design, cross-cutting change, hard debugging | Strongest available model, or do it yourself | Briefing costs more than doing; errors compound |
-| Independent review or verification of a part | A different agent from the author, fresh context, read-only | Required at High risk (`planning/agents.md#split-work-between-agents-only-when-it-pays`); shared context shares blind spots |
+| Independent review or verification of a part | A different agent from the author, fresh context, read-only; strength per the gate's reviewer strength rule | Required at Medium risk and above; shared context shares blind spots |
 | Integration and final checks | The orchestrator | One agent owns the combined result |
 
 Adjust by these traits, in order:
 
 1. **Writes or not.** If the slice needs no edits, use a read-only agent. Grant the least permission that works.
-2. **Risk tier.** At High risk use a stronger model and a separate reviewer. At Low, prefer cheap.
+2. **Risk tier.** At Medium risk and above use a separate reviewer. At High risk also use a stronger model and two or more reviewers. Reviewer strength must meet the gate's rule (never weaker than the author at High risk); if a pinned reviewer in `agent-choices.local.md` is weaker, warn and fall back; if none qualifies, the gate is BLOCKED (see the gate). At Low, prefer cheap.
 3. **Ambiguity.** If the slice needs judgement the brief cannot settle, do not delegate it. Settle the decision, then delegate the rest.
 4. **Context needed.** If the slice depends on most of what you know, do it yourself. Delegate when a short brief is enough.
 5. **Parallel or serial.** Run slices in parallel only when they touch different files or modules and need no output from each other. Otherwise run them in order.
