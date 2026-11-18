@@ -22,8 +22,8 @@ Adapted in part from Bun's Zig-to-Rust rewrite (<https://bun.com/blog/bun-in-rus
 Rank the models the harness offers as fast, mid or strong, using only what it lists; if you cannot tell, ask or use `.agents/agent-choices.local.md`. Compare the reviewer to the author, not to a model name.
 
 - **Medium:** at least mid-tier, and at least as strong as the author for non-trivial changes. Prefer a different model from the author.
-- **High:** every reviewer at least as strong as the author, and at least one from a different model, ideally a different family.
-- **Author is the strongest available:** use a different model of the same tier, or two reviewers from the strongest.
+- **High:** every reviewer at least as strong as the author, and at least one from a different model than the author's, ideally a different family.
+- **Author is the strongest available:** use a different model of the same tier if one exists. If none exists, this is the only exception to the different-model requirement: use two or more reviewers from that model, each with a different angle and a fresh context, and state the exception in the gate record.
 - **Hard design, cross-cutting or debugging work:** review it with a strong model; cheap review here gives false confidence.
 - **Shortfall:** if no available model meets the rule, the gate is BLOCKED. Report it and ask; do not silently downgrade.
 - A weaker reviewer counts only if it states what it tried to break. Every report names the model it ran on.
