@@ -2,8 +2,6 @@
 
 Required for changes at Medium risk and above, including solo work. Self-review and passing automated checks do not replace independent review.
 
-Adapted in part from Bun's Zig-to-Rust rewrite (<https://bun.com/blog/bun-in-rust>): separate roles, adversarial reviewers, and fixing the process that produces bad code.
-
 ## Roles
 
 - **Implementer** writes the change and wants it accepted, which biases it toward shipping early. It never reviews its own work for the gate.
