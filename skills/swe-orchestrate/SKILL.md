@@ -31,7 +31,7 @@ Not user-invoked; `swe-execute` loads it. swe-docs owns whether to split, the br
 Adjust by these traits, in order:
 
 1. **Writes or not.** If the slice needs no edits, use a read-only agent. Grant the least permission that works.
-2. **Risk tier.** At Medium risk and above use a separate reviewer. At High risk also use two or more reviewers. The gate's reviewer strength rule alone governs reviewer strength (never weaker than the author at High risk); if a pinned reviewer in `agent-choices.local.md` is weaker, warn and fall back; if none qualifies, the gate is BLOCKED (see the gate). At Low, prefer cheap.
+2. **Risk tier.** At Medium risk and above use a separate reviewer. At High risk also use two or more reviewers. The gate's reviewer strength rule alone governs reviewer strength (never weaker than the author at High risk); if a pinned reviewer in `agent-choices.local.md` fails the gate's rule for this tier, warn and fall back (a pinned reviewer that meets it stays, even if weaker than the author on a trivial Medium change); if none qualifies, the gate is BLOCKED (see the gate). At Low, prefer cheap.
 3. **Ambiguity.** If the slice needs judgement the brief cannot settle, do not delegate it. Settle the decision, then delegate the rest.
 4. **Context needed.** If the slice depends on most of what you know, do it yourself. Delegate when a short brief is enough.
 5. **Parallel or serial.** Run slices in parallel only when they touch different files or modules and need no output from each other. Otherwise run them in order.
