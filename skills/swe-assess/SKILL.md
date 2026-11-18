@@ -21,7 +21,8 @@ Uses `docs/guidelines` from swe-docs (<https://github.com/cs-clarence/swe-docs>)
 | New project | As its approach file says | Automated from the start | `swe-plan` |
 
 - Split only when it saves more than it costs in briefing, coordination and checking; otherwise work solo (`planning/agents.md#split-work-between-agents-only-when-it-pays`). If that heading is missing, the installed swe-docs is older than these skills expect: tell the user to update it and work solo meanwhile.
-- High risk goes to `swe-plan` whatever the size. No agent is the only checker of its own part.
+- High risk goes to `swe-plan` whatever the size.
+- At Medium risk and above, no agent is the only checker of its own part; independent review is required even for solo work.
 - At Low risk, CI on the integrated change may stand in for a local run of small or medium work (`planning/agents.md#run-the-broad-checks-once-at-integration`).
 - Read the matching file in `planning/approaches/` before handing off.
 

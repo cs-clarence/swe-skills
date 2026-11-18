@@ -107,6 +107,7 @@ Optional and personal: each user has different agents and models, so keep it out
 - One line per kind of work: explore, research, bounded edit, hard design or debugging, independent review.
 - Name the agent or model exactly as the harness does, with an optional override condition, such as High risk.
 - Leave a kind out to keep the default.
+- For independent review, record the model's strength (fast, mid or strong) when known. `swe-orchestrate` still applies the gate's reviewer strength rule and falls back if the pinned reviewer is weaker than the author at High risk.
 - To infer it, read what the harness offers and use the table in `swe-orchestrate`. Mark each line as inferred, give a one-line reason, and write nothing until the user accepts or edits it. If the harness lists too little to infer a kind, leave it out.
 - Ask which agent the user runs and list only what it offers. Never record an agent you could not confirm exists.
 - On rerun, check the file still lists agents that exist; models change.
