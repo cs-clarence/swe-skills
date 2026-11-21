@@ -17,7 +17,7 @@ Required for changes at Medium risk and above, including solo work. Self-review 
 
 ### Reviewer strength
 
-Rank the models the harness offers as fast, mid or strong, using only what it lists; if you cannot tell, ask or use `.agents/agent-choices.local.md`. Compare the reviewer to the author, not to a model name.
+Rank the models the harness offers as fast, mid or strong, using only what it lists; if you cannot tell, ask or use `.agents/agent-choices.local.md` (if absent from the current workspace, look in the main worktree of this checkout, per `swe-orchestrate`). Compare the reviewer to the author, not to a model name.
 
 - **Medium:** at least mid-tier, and at least as strong as the author for non-trivial changes. Prefer a different model from the author.
 - **High:** every reviewer at least as strong as the author, and at least one from a different model than the author's, ideally a different family.

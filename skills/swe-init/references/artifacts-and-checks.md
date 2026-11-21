@@ -104,9 +104,11 @@ Optional and personal: each user has different agents and models, so keep it out
 
 - Write it to `.agents/agent-choices.local.md`; `swe-orchestrate` reads only this path, so do not use another. Add that path to the repo's `.gitignore` (create the file if missing, append, never overwrite), show the change, and confirm the file is ignored with `git check-ignore`. If the path is already tracked, offer to untrack it (`git rm --cached`) with the user's approval; otherwise skip personal choices, since no other path is read.
 - Do not add it to the instruction file. `swe-orchestrate` reads this path directly.
-- One line per kind of work: explore, research, bounded edit, hard design or debugging, independent review.
+- One line per kind of work: explore, research, bounded edit, hard design or debugging, independent review, and a general all-purpose agent used as the fallback when no other line applies or a pinned agent is no longer offered.
 - Name the agent or model exactly as the harness does, with an optional override condition, such as High risk.
+- A line may list several agents or models in order of preference, separated by `>` (for example, `bounded edit: modelA > modelB`). The first is preferred; use the next only when the earlier ones are no longer offered. Effort, if chosen, is recorded per model.
 - Leave a kind out to keep the default.
+- Effort: by default assume the model's default effort level and record nothing. For each kind of work, also offer the max effort level (reasoning effort, thinking budget or equivalent) for each model the harness lists, and record it on that line only if the user picks it (for example, `bounded edit: <model>, effort: max`). Offer only effort levels the harness lists for that model, and name the top one exactly as the harness does; if a model exposes no effort setting, say so and record nothing for it. Never invent a level.
 - For independent review, record the model's strength (fast, mid or strong) when known. `swe-orchestrate` still applies the gate's reviewer strength rule and falls back if the pinned reviewer is weaker than the author at High risk.
 - To infer it, read what the harness offers and use the table in `swe-orchestrate`. Mark each line as inferred, give a one-line reason, and write nothing until the user accepts or edits it. If the harness lists too little to infer a kind, leave it out.
 - Ask which agent the user runs and list only what it offers. Never record an agent you could not confirm exists.
