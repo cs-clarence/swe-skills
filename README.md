@@ -11,6 +11,7 @@ Agent skills that wrap the guidelines in [swe-docs](https://github.com/cs-claren
 | `swe-execute` | Carrying out a task or plan end to end; splits work between agents when it pays |
 | `swe-author` | Writing or changing code |
 | `swe-docs-write` | Writing or updating documents; `swe-author` covers this too, this is for manual invocation |
+| `swe-change-description` | Writing a PR description or commit body; words it with pstack's [`unslop`](https://github.com/cursor/plugins/blob/main/pstack/skills/unslop/SKILL.md) |
 | `swe-review` | Reviewing a change, plan or agent output |
 | `swe-debug` | Finding and fixing a defect |
 | `swe-release` | Shipping a change and being able to undo it |

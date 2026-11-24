@@ -28,5 +28,7 @@ routes:
         dest: .agents/skills/swe-docs-write
       - source: skills/swe-execute
         dest: .agents/skills/swe-execute
+      - source: skills/swe-change-description
+        dest: .agents/skills/swe-change-description
       - source: skills/swe-orchestrate
         dest: .agents/skills/swe-orchestrate
